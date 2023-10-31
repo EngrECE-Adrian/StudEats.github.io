@@ -1,0 +1,52 @@
+body .gag {
+    color:blue 
+}
+body::after{
+    background-image: url(../img/bb.jpg);
+}
+body .lombay {
+    font-size: 80px;
+    font: bold;
+    font-style: italic;
+    float: left;
+}
+.main-p{
+    color: rgb(234, 90, 181);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 40px;
+    font-weight: 100;
+    font-style: italic;
+    text-align: justify;
+    text-decoration: underline;
+    text-transform: none;
+    line-height: 50px;
+    word-spacing: 0ch;
+    float: left;
+    z-index: 100;
+
+}
+.test-div {
+    width: 100px;
+    height: 10000px;
+    background-color: rgb(71, 231, 100);
+    padding-left: 200px 0 0 10px;
+    float: left;
+}
+.test-divv {
+    width: 300px;
+    height: 100px;
+    background-color: rgb(199, 231, 71);
+    padding-left: 200px 0 0 10px;
+    
+}
+.pic {
+    width: 400px;
+    height: 500px;
+    background-image: url(../img/bb.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.pic:hover{
+    background-image: url(../img/asd.jpg);
+}

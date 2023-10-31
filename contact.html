@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudEats - Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f2f0e6;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+        }
+
+        header * {
+            color: #fff; /* Set font color to white for all elements inside header */
+        }
+
+        #logo-box, #search-box, #action-box {
+            display: flex;
+            align-items: center;
+        }
+
+        #logo {
+            width: 80px; /* Adjust the width as needed */
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+
+        #search-box {
+            /* Your existing styles for search box */
+        }
+
+        #action-box {
+            /* Your existing styles for action box */
+        }
+
+        #go-back {
+            padding: 10px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: transparent; /* Set initial background color to transparent */
+        }
+
+        #go-back:hover {
+            background-color: transparent;
+            color: #ddd;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #result-count {
+            font-size: 18px;
+            color: #333;
+        }
+
+        #not-available {
+            font-size: 18px;
+            color: #e74c3c;
+            margin-top: 20px;
+        }
+
+        .food-stall {
+            margin-bottom: 30px;
+        }
+
+        .dish {
+            border: 4px solid #ccc; /* Increase the border thickness to 4px */
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f2f0e6;
+        }
+
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        .allergy {
+            color: #e74c3c;
+        }
+
+        /* Add any additional styles for the results page here */
+    </style>
+</head>
+<body>
+
+    <header>
+        <div id="logo-box">
+            <img src="logo.png" alt="StudEats Logo" id="logo">
+        </div>
+        <div id="search-box">
+            <!-- Your existing search box content -->
+        </div>
+        <div id="action-box">
+            <button id="go-back">Go Back</button>
+        </div>
+    </header>
+
+    <div class="header">
+        <!-- Additional content for the search results page header -->
+        <h1>Search Results</h1>
+    </div>
+
+    <div id="result-count"></div>
+
+    <div class="food-stall">
+        <!-- Your existing content for the food stalls -->
+        <div class="dish" data-ingredients="Chicken, Soy sauce, Vinegar, Coconut milk" data-allergies="Dairy">
+            <h3>Adobo - Tara! Lets Eat</h3>
+            <p>Ingredients: Chicken, Soy sauce, Vinegar, Coconut milk</p>
+            <p class="allergy">Allergies: Dairy</p>
+        </div>
+
+        <div class="dish" data-ingredients="Pork, Nuts, Vegetables" data-allergies="Nuts">
+            <h3>Kare-kare - Tara! Lets Eat</h3>
+            <p>Ingredients: Pork, Nuts, Vegetables</p>
+            <p class="allergy">Allergies: Nuts</p>
+        </div>
+
+        <div class="dish" data-ingredients="Chicken, Special ingredients, Egg, Batter" data-allergies="Egg, Chicken">
+            <h3>ChickenJoy - Jollibee</h3>
+            <p>Ingredients: Chicken, Special ingredients, Egg, Batter</p>
+            <p class="allergy">Allergies: Egg, Chicken</p>
+        </div>
+    </div>
+
+    <div id="not-available" style="display:none;">Sorry, it is not available yet.</div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('search');
+
+        const resultCountElement = document.getElementById('result-count');
+
+        if (searchTerm) {
+            const highlightTerm = searchTerm.toLowerCase();
+            const dishElements = document.querySelectorAll('.dish');
+            let matchCount = 0;
+
+            dishElements.forEach(dish => {
+                const dishName = dish.querySelector('h3');
+                const ingredients = dish.querySelector('p:first-of-type');
+                const allergies = dish.querySelector('.allergy');
+
+                const highlightedDishName = dishName.textContent.replace(new RegExp(`(${highlightTerm})`, 'ig'), match => `<span class="highlight">${match}</span>`);
+                const highlightedIngredients = ingredients.textContent.replace(new RegExp(`(${highlightTerm})`, 'ig'), match => `<span class="highlight">${match}</span>`);
+                const highlightedAllergies = allergies.textContent.replace(new RegExp(`(${highlightTerm})`, 'ig'), match => `<span class="highlight">${match}</span>`);
+
+                dishName.innerHTML = highlightedDishName;
+                ingredients.innerHTML = highlightedIngredients;
+                allergies.innerHTML = highlightedAllergies;
+
+                const matches = (highlightedDishName.match(/<span class="highlight">/g) || []).length +
+                                (highlightedIngredients.match(/<span class="highlight">/g) || []).length +
+                                (highlightedAllergies.match(/<span class="highlight">/g) || []).length;
+
+                if (matches > 0) {
+                    matchCount += matches;
+                }
+            });
+
+            if (matchCount === 0) {
+                document.getElementById('not-available').style.display = 'block';
+            } else {
+                resultCountElement.textContent = `${matchCount} result${matchCount !== 1 ? 's' : ''} for '${searchTerm}'`;
+            }
+        }
+
+        document.getElementById('go-back').addEventListener('click', function () {
+            window.location.href = 'index.html';
+        });
+    </script>
+
+</body>
+</html>
